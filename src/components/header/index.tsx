@@ -1,14 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Css from "./index.module.css";
 import { useRecoilState } from "recoil";
-import { userLogin, userCreate, misDatos, checkToken } from "../../atoms/atoms";
+import {
+  userLogin,
+  userCreate,
+  misDatos,
+  checkToken,
+  sesionIniciada,
+} from "../../atoms/atoms";
+import Swal from "sweetalert2";
+import { checkTokenValidoHook } from "@/api-hooks/api-hooks-mis-datos";
+import { myData } from "@/api-hooks/api-hooks";
 
 function Header() {
   const [userCreateData, setUserCreateData] = useRecoilState(userCreate);
   const [misDatosData, setMisDatosData] = useRecoilState(misDatos);
   const [userLoginState, setUserLoginState] = useRecoilState(userLogin);
   const [checkTokenValid, setCheckTokenValid] = useRecoilState(checkToken);
+  const [sesionActual, setSesionActual] = useRecoilState(sesionIniciada);
   const { push } = useRouter();
 
   const cerrarSesion = () => {
@@ -30,6 +40,27 @@ function Header() {
       terminoElChequeo: false,
     });
   };
+
+  const callbackCheckToken = (respuesta: any) => {
+    if (respuesta.error) {
+      //el checktokenvalid tiene dos atributos, si es valido o no el token
+      //y si se termino el cheaque
+      setSesionActual({ sesionOn: false, name: "" });
+    } else {
+      myData((respuesta: any) => {
+        if (respuesta) {
+          console.log("respuesta de mydata: ", myData);
+        }
+        setSesionActual({ sesionOn: true, name: respuesta.name });
+      });
+    }
+  };
+
+  //este estado de inicializar lo cree para que solo se ejecute una vez el
+  //chequeo del tengo de la api
+  useEffect(() => {
+    checkTokenValidoHook(callbackCheckToken);
+  }, []);
 
   //este state lo utilizo para saber si aprete el boton para cerrar
   //o abrir la ventana, dependiendo si es true o false
@@ -64,7 +95,11 @@ function Header() {
               if (localStorage.getItem("Token")) {
                 push("/mis-datos");
               } else {
-                alert("No has iniciado sesión, te redirigimos al login");
+                Swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: "No has iniciado sesión, te redirigimos al login",
+                });
                 push("/sign-in");
               }
             }}
@@ -77,7 +112,11 @@ function Header() {
               if (localStorage.getItem("Token")) {
                 push("/mis-pets-perdidas");
               } else {
-                alert("No has iniciado sesión, te redirigimos al login");
+                Swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: "No has iniciado sesión, te redirigimos al login",
+                });
                 push("/sign-in");
               }
             }}
@@ -90,26 +129,46 @@ function Header() {
               if (localStorage.getItem("Token")) {
                 push("/cargar-pet-perdida");
               } else {
-                alert("No has iniciado sesión, te redirigimos al login");
+                Swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: "No has iniciado sesión, te redirigimos al login",
+                });
                 push("/sign-in");
               }
             }}
             className={Css.headerLinksLink}
           >
-            Reportar mascota
+            Cargar mascota perdida
           </a>
-          <a
-            onClick={() => {
-              localStorage.setItem("Token", "");
-              alert("Se ha cerrado sesión");
-              console.log("este es el token:", localStorage.getItem("Token"));
-              cerrarSesion();
-              push("/");
-            }}
-            className={Css.headerLinksLink}
-          >
-            Cerrar sesión
-          </a>
+          {sesionActual.sesionOn ? (
+            <a
+              onClick={() => {
+                localStorage.setItem("Token", "");
+                Swal.fire("OK", "Se ha cerrado sesión", "success");
+                console.log("este es el token:", localStorage.getItem("Token"));
+                cerrarSesion();
+                push("/");
+                //para reloguear la pag
+                window.location.replace("/");
+              }}
+              className={Css.headerLinksLink}
+            >
+              {sesionActual.sesionOn
+                ? `Cerrar sesión ${sesionActual.name}`
+                : "Cerrar sesión"}
+            </a>
+          ) : (
+            <a
+              onClick={() => {
+                Swal.fire("OK", "Se lo redireccionará al login", "success");
+                push("/sign-in");
+              }}
+              className={Css.headerLinksLink}
+            >
+              Iniciar sesión
+            </a>
+          )}
         </div>
         <div className={Css.headerVisibleBotonDesplegarContainer}>
           <button
@@ -136,7 +195,11 @@ function Header() {
               push("/mis-datos");
             } else {
               cerrarVentana();
-              alert("No has iniciado sesión, te redirigimos al login");
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "No has iniciado sesión, te redirigimos al login",
+              });
               push("/sign-in");
             }
           }}
@@ -151,7 +214,11 @@ function Header() {
               push("/mis-pets-perdidas");
             } else {
               cerrarVentana();
-              alert("No has iniciado sesión, te redirigimos al login");
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "No has iniciado sesión, te redirigimos al login",
+              });
               push("/sign-in");
             }
           }}
@@ -166,27 +233,46 @@ function Header() {
               push("/cargar-pet-perdida");
             } else {
               cerrarVentana();
-              alert("No has iniciado sesión, te redirigimos al login");
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "No has iniciado sesión, te redirigimos al login",
+              });
               push("/sign-in");
             }
           }}
           className={Css.ventanaLinksLink + " " + Css.linkTres}
         >
-          Reportar mascota
+          Cargar mascota perdida
         </a>
-        <a
-          onClick={() => {
-            localStorage.setItem("Token", "");
-            alert("Se ha cerrado sesión");
-            console.log(localStorage.getItem("Token"));
-            cerrarVentana();
-            cerrarSesion();
-            push("/");
-          }}
-          className={Css.ventanaLinksLink + " " + Css.linkCuatro}
-        >
-          Cerrar sesion
-        </a>
+        {sesionActual.sesionOn ? (
+          <a
+            onClick={() => {
+              localStorage.setItem("Token", "");
+              Swal.fire("OK", "Se ha cerrado sesión", "success");
+              console.log("este es el token:", localStorage.getItem("Token"));
+              cerrarSesion();
+              push("/");
+              //para reloguear la pag
+              window.location.replace("/");
+            }}
+            className={Css.headerLinksLink}
+          >
+            {sesionActual.sesionOn
+              ? `Cerrar sesión ${sesionActual.name}`
+              : "Cerrar sesión"}
+          </a>
+        ) : (
+          <a
+            onClick={() => {
+              Swal.fire("OK", "Se lo redireccionará al login", "success");
+              push("/sign-in");
+            }}
+            className={Css.headerLinksLink}
+          >
+            Iniciar sesión
+          </a>
+        )}
       </div>
     </div>
   );

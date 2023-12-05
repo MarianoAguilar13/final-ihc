@@ -78,6 +78,11 @@ export const mailUser = atom({
   default: { mail: "" },
 });
 
+export const sesionIniciada = atom({
+  key: "sesioniniciada",
+  default: { sesionOn: false, name: "" },
+});
+
 /*
 export const buttonHidden = atom({
   key: "mailUser",

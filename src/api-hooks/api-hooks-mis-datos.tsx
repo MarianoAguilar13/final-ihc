@@ -1,3 +1,5 @@
+import Swal from "sweetalert2";
+
 const API_BASE_URL = "https://app-mascotas-backend.onrender.com";
 
 export async function checkTokenValidoHook(callback: any) {
@@ -13,8 +15,9 @@ export async function checkTokenValidoHook(callback: any) {
 
   try {
     const res = await fetchApi;
-    //console.log("nombre del usuario: ", resultado.name);
+
     const resultado = await res.json();
+    console.log("resultado de chequear token: ", resultado);
 
     callback(resultado);
   } catch (r) {
@@ -59,6 +62,10 @@ export async function editarMisDatosHook(
 
     callback(resultado);
   } catch (r: any) {
-    alert(r.error);
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: r.error,
+    });
   }
 }

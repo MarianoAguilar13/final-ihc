@@ -7,6 +7,7 @@ import { useRecoilState } from "recoil";
 import { petsConLocationCercana } from "../../api-hooks/api-hooks";
 import { SpinnerBlack } from "../../components/spinner-black";
 import { Layout } from "@/components/layout";
+import Swal from "sweetalert2";
 
 const PetsCercanas = () => {
   //las coordenadas que se obtuvieron del navegador
@@ -28,7 +29,11 @@ const PetsCercanas = () => {
       setIsLoading(false);
     } else {
       setIsLoading(false);
-      alert("No hay mascotas cerca de tu hubicación");
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "No hay mascotas cerca de tu hubicación",
+      });
       push("/");
     }
   };

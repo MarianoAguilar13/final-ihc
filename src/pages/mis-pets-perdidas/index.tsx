@@ -5,6 +5,7 @@ import { misPets } from "../../api-hooks/api-hooks";
 import { CardMisPets } from "../../components/card-mis-pets";
 import Css from "./index.module.css";
 import { Layout } from "@/components/layout";
+import Swal from "sweetalert2";
 
 const MisPets = () => {
   const [comenzar, setComenzar] = useState(true);
@@ -41,9 +42,11 @@ const MisPets = () => {
       //te notificara que no estas conectado y que vayas al sign-in
       if (checkToken.valido) {
       } else {
-        alert(
-          "No esta conectado a alguna cuenta, por favor inicie sesión para acceder a esta opción"
-        );
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "No esta conectado a alguna cuenta, por favor inicie sesión para acceder a esta opción",
+        });
         push("/sign-in");
       }
     }
@@ -55,7 +58,7 @@ const MisPets = () => {
       //setteos todas las pets en el state
       setMyPets(respuesta);
     } else {
-      alert("No has publicado mascotas por el momento");
+      Swal.fire("No has publicado mascotas por el momento", "success");
       push("/");
     }
   };

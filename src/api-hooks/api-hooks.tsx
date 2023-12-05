@@ -22,9 +22,9 @@ export async function iniciarSesionCrearToken(
 
   try {
     const res = await fetchApi;
-    //console.log("nombre del usuario: ", resultado.name);
-    const resultado = await res.json();
 
+    const resultado = await res.json();
+    console.log("nombre del usuario: ", resultado);
     localStorage.setItem("Token", resultado.respuesta);
 
     callback(resultado);

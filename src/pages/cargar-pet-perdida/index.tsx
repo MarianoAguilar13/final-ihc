@@ -10,6 +10,7 @@ import { Layout } from "@/components/layout";
 import { checkTokenValidoHook } from "@/api-hooks/api-hooks-mis-datos";
 import { cargarPet } from "../../api-hooks/api-hooks";
 import { SpinnerWhite } from "../../components/spinner-white";
+import Swal from "sweetalert2";
 
 const CargarPet = () => {
   const { push } = useRouter();
@@ -51,9 +52,11 @@ const CargarPet = () => {
       //te notificara que no estas conectado y que vayas al sign-in
       if (checkToken.valido) {
       } else {
-        alert(
-          "No esta conectado a alguna cuenta, por favor inicie sesión para acceder a esta opción"
-        );
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "No está conectado a una cuenta, por favor inicie sesión para acceder a esta opción",
+        });
         push("/sign-in");
       }
     }
@@ -77,11 +80,15 @@ const CargarPet = () => {
   const callbackCargarPet = (result: any) => {
     if (result.petId) {
       setIsLoading(false);
-      alert("Tu mascota se ha cargado correctamente");
+      Swal.fire("OK", "Tu mascota se ha cargado correctamente", "success");
       push("/");
     } else {
       setIsLoading(false);
-      alert(result.error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: result.error,
+      });
       push("/cargar-pet");
     }
   };
@@ -117,10 +124,13 @@ const CargarPet = () => {
           callbackCargarPet
         );
       } else {
-        alert(
-          "Por favor recuerde que es necesario ingresar una foto de su mascota y una ubicación donde se avisto por última vez "
-        );
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Por favor recuerde que es necesario ingresar una foto de su mascota y una ubicación donde se avisto por última vez ",
+        });
         push("/cargar-pet-perdida");
+        setIsLoading(false);
       }
     } else {
       setIsLoading(false);
@@ -137,18 +147,18 @@ const CargarPet = () => {
             idInput="name-input"
             nameInput="name"
             typeInput="text"
-            labelName="NOMBRE"
+            labelName="NOMBRE(*)"
           ></MainFieldSet>
           <MainFieldSet
             idInput="tipo-pet-input"
             nameInput="tipoPet"
             typeInput="text"
-            labelName="TIPO DE MASCOTA"
+            labelName="TIPO DE MASCOTA(*)"
           ></MainFieldSet>
           <img
             className={Css.mostrarImagen}
             src={imagenMostrar}
-            alt="Imagen de la pet a cargar"
+            alt="Imagen de la pet a cargar(*)"
           />
           <Dropzone
             onDrop={async (file) => {
@@ -180,7 +190,7 @@ const CargarPet = () => {
           <FieldSetTextArea
             idTextArea="descripcion"
             nameTextArea="descripcion"
-            labelName="DESCRIPCION"
+            labelName="DESCRIPCION(*)"
           ></FieldSetTextArea>
           {isLoading && <SpinnerWhite></SpinnerWhite>}
           <MainButton

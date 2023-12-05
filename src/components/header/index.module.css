@@ -57,6 +57,7 @@
   margin-right: 40px;
   margin-left: 40px;
   cursor: pointer;
+  text-align: center;
 }
 
 @media (max-width: 768px) {

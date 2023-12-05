@@ -12,6 +12,7 @@ import { idPetEditar } from "../../atoms/atoms";
 import { useRecoilState } from "recoil";
 import { SpinnerWhite } from "../../components/spinner-white";
 import { Layout } from "@/components/layout";
+import Swal from "sweetalert2";
 
 const EditarPet = () => {
   const { push } = useRouter();
@@ -65,9 +66,11 @@ const EditarPet = () => {
       //te notificara que no estas conectado y que vayas al sign-in
       if (checkToken.valido) {
       } else {
-        alert(
-          "No esta conectado a alguna cuenta, por favor inicie sesión para acceder a esta opción"
-        );
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "No esta conectado a alguna cuenta, por favor inicie sesión para acceder a esta opción",
+        });
         push("/sign-in");
       }
     }
@@ -93,7 +96,11 @@ const EditarPet = () => {
     if (pet.id) {
       setPetData(pet);
     } else {
-      alert("La mascota a la que quiere acceder ya no existe");
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "La mascota a la que quiere acceder ya no existe",
+      });
       push("/");
     }
   };
@@ -102,11 +109,15 @@ const EditarPet = () => {
   const callbackEditPet = (result: any) => {
     if (result) {
       setIsLoading(false);
-      alert("Tu mascota se ha cargado correctamente");
+      Swal.fire("OK", "Tu mascota se ha cargado correctamente", "success");
       push("/");
     } else {
       setIsLoading(false);
-      alert(result.error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: result.error,
+      });
       push("/cargar-pet");
     }
   };
@@ -170,19 +181,19 @@ const EditarPet = () => {
             idInput="name-input"
             nameInput="name"
             typeInput="text"
-            labelName="NOMBRE"
+            labelName="NOMBRE(*)"
           ></FieldSetEditPet>
           <FieldSetEditPet
             typeValue={petData.type}
             idInput="tipo-pet-input"
             nameInput="tipoPet"
             typeInput="text"
-            labelName="TIPO DE MASCOTA"
+            labelName="TIPO DE MASCOTA(*)"
           ></FieldSetEditPet>
           <img
             className={Css.mostrarImagen}
             src={imagenMostrar || petData.picURL}
-            alt="Imagen de la pet a cargar"
+            alt="Imagen de la pet a cargar(*)"
           />
           <Dropzone
             onDrop={async (file) => {
@@ -216,7 +227,7 @@ const EditarPet = () => {
             descriptionValue={petData.description}
             idTextArea="descripcion"
             nameTextArea="descripcion"
-            labelName="DESCRIPCION"
+            labelName="DESCRIPCION(*)"
           ></FieldSetTextAreaEditPet>
           {isLoading && <SpinnerWhite></SpinnerWhite>}
           <MainButton

@@ -7,6 +7,7 @@ import { useRecoilState } from "recoil";
 import { mailUser } from "../../atoms/atoms";
 import { crearTextoHook } from "../../api-hooks/api-hooks-reportar-pet";
 import { enviarMailHook } from "../../api-hooks/api-hooks-reportar-pet";
+import Swal from "sweetalert2";
 
 type PropsFormReportPet = {
   idInputUno: string;
@@ -34,7 +35,7 @@ export function FormReportPet(props: PropsFormReportPet) {
   //si el fetch sale bien entonces mostramos con una alerta el msj
   const callbackEnviarMail = (respuesta: any) => {
     setIsLoading(false);
-    alert(respuesta.message);
+    Swal.fire("OK", respuesta.message, "success");
     push("/");
   };
 
@@ -66,9 +67,11 @@ export function FormReportPet(props: PropsFormReportPet) {
       enviarMailHook(mailUserOwner.mail, text, callbackEnviarMail);
     } else {
       setIsLoading(false);
-      alert(
-        "Recuerde que deben completarse todos los datos para enviar el reporte y el número de teléfono debe contener carecterística y número"
-      );
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Recuerde que deben completarse todos los datos para enviar el reporte y el número de teléfono debe contener carecterística y número",
+      });
     }
   };
 

@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { MainButton } from "../../ui/buttons";
 import { FormSignIn } from "../../components/form-sign-in";
+import { useRecoilState } from "recoil";
+import { sesionIniciada } from "../../atoms/atoms";
 import Css from "./index.module.css";
 import { useRouter } from "next/navigation";
 import { iniciarSesionCrearToken } from "../../api-hooks/api-hooks";
 import { SpinnerWhite } from "../../components/spinner-white";
 import { Layout } from "@/components/layout";
+import Swal from "sweetalert2";
+import { checkTokenValidoHook } from "@/api-hooks/api-hooks-mis-datos";
 
 const SignIn = () => {
   //este state usa el atom userLogin que tiene los datos para iniciar sesion
@@ -14,16 +18,31 @@ const SignIn = () => {
     password: "",
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [sesionActual, setSesionActual] = useRecoilState(sesionIniciada);
   const { push } = useRouter();
 
   const callbackSignIn = (respuesta: any) => {
     if (respuesta.error) {
-      alert(respuesta.error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: respuesta.error,
+      });
       setIsLoading(false);
       push("/sign-in");
     } else {
       setIsLoading(false);
-      alert("Se ingresó correctamente a tu cuenta");
+      checkTokenValidoHook((respuesta: any) => {
+        if (respuesta.error) {
+          //el checktokenvalid tiene dos atributos, si es valido o no el token
+          //y si se termino el cheaque
+          setSesionActual({ sesionOn: false, name: "" });
+        } else {
+          setSesionActual({ sesionOn: true, name: respuesta.name });
+        }
+      });
+      setSesionActual({ sesionOn: true, name: respuesta.name });
+      Swal.fire("OK", "Se ingresó correctamente a tu cuenta", "success");
       push("/");
     }
   };
@@ -54,7 +73,7 @@ const SignIn = () => {
           idInputUno="mail-input"
           nameInputUno="mail"
           typeInputUno="email"
-          labelNameUno="MAIL"
+          labelNameUno="E-MAIL"
           idInputDos="password-input"
           nameInputDos="password"
           typeInputDos="password"

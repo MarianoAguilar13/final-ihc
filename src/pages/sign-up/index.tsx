@@ -9,6 +9,7 @@ import {
 } from "../../api-hooks/api-hooks-create-account";
 import { SpinnerWhite } from "../../components/spinner-white";
 import { Layout } from "@/components/layout";
+import Swal from "sweetalert2";
 
 const SignUp = () => {
   //contiene el state de los datos para crear una cuenta
@@ -26,12 +27,20 @@ const SignUp = () => {
   const callbackCrearCuenta = (resultado: any) => {
     if (resultado.error) {
       setIsLoading(false);
-      alert(resultado.error);
-      alert("Por favor ingrese valores validos para poder crear su cuenta");
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: resultado.error,
+      });
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Por favor ingrese valores validos para poder crear su cuenta",
+      });
       push("/sign-up");
     } else {
       setIsLoading(false);
-      alert("Su cuenta se ha creado correctamente");
+      Swal.fire("OK", "Su cuenta se ha creado correctamente", "success");
       push("/sign-in");
     }
   };
@@ -56,14 +65,20 @@ const SignUp = () => {
             callbackCrearCuenta
           );
         } else {
-          alert(
-            "El mail ingresado, no tiene formato de mail, por favor ingrese un mail válido"
-          );
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "El mail ingresado, no tiene formato de mail, por favor ingrese un mail válido",
+          });
+          setIsLoading(false);
         }
       } else {
-        alert(
-          "Las contraseñas ingresadas no coinciden, por favor ingrese los datos nuevamente"
-        );
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Las contraseñas ingresadas no coinciden, por favor ingrese los datos nuevamente",
+        });
+        setIsLoading(false);
       }
     }
   }, [userCreateData]);
@@ -80,19 +95,19 @@ const SignUp = () => {
           idInputUno="mail-input"
           nameInputUno="mail"
           typeInputUno="email"
-          labelNameUno="MAIL"
+          labelNameUno="E-MAIL(*)"
           idInputDos="name-input"
           nameInputDos="name"
           typeInputDos="text"
-          labelNameDos="NAME"
+          labelNameDos="NOMBRE(*)"
           idInputTres="password-input"
           nameInputTres="password"
           typeInputTres="password"
-          labelNameTres="CONTRASEÑA"
+          labelNameTres="CONTRASEÑA(*)"
           idInputCuatro="password-repetida-input"
           nameInputCuatro="passwordRepetida"
           typeInputCuatro="password"
-          labelNameCuatro="REPETIR CONTRASEÑA"
+          labelNameCuatro="REPETIR CONTRASEÑA(*)"
           buttonChildren="Enviar"
         ></FormSignUp>
       </div>

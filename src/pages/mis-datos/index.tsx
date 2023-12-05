@@ -9,6 +9,7 @@ import {
 import { checkTokenValidoHook } from "../../api-hooks/api-hooks-mis-datos";
 import { SpinnerWhite } from "../../components/spinner-white";
 import { Layout } from "@/components/layout";
+import Swal from "sweetalert2";
 
 const MisDatos = () => {
   const [misDatos, setMisDatos] = useState({
@@ -51,9 +52,11 @@ const MisDatos = () => {
       //te notificara que no estas conectado y que vayas al sign-in
       if (checkToken.valido) {
       } else {
-        alert(
-          "No esta conectado a alguna cuenta, por favor inicie sesión para acceder a esta opción"
-        );
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "No esta conectado a alguna cuenta, por favor inicie sesión para acceder a esta opción",
+        });
         push("/sign-in");
       }
     }
@@ -64,11 +67,19 @@ const MisDatos = () => {
   const callbackEditarMisDatos = (respuesta: any) => {
     if (respuesta.error) {
       setIsLoading(false);
-      alert(respuesta.error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: respuesta.error,
+      });
       push("/mis-datos");
     } else {
       setIsLoading(false);
-      alert(respuesta.aviso);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: respuesta.aviso,
+      });
       push("/");
     }
   };
@@ -88,9 +99,11 @@ const MisDatos = () => {
           callbackEditarMisDatos
         );
       } else {
-        alert(
-          "Las contraseñas ingresadas no coinciden, por favor ingrese los datos nuevamente"
-        );
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Las contraseñas ingresadas no coinciden, por favor ingrese los datos nuevamente",
+        });
       }
     }
   }, [misDatos]);
@@ -100,8 +113,8 @@ const MisDatos = () => {
       <div className={Css.container}>
         <h3 className={Css.containerTitulo}>Mis Datos</h3>
         <h3 className={Css.containerSubTitulo}>
-          si desea cambiar la contraseña ingrese la nueva contraseña y repitala,
-          si solo desea cambiar el nombre, deje vacio nueva contraseña.
+          Si desea cambiar la contraseña ingrese la nueva contraseña y repítala,
+          si solo desea cambiar el nombre, deje vacío nueva contraseña.
         </h3>
         {isLoading && <SpinnerWhite></SpinnerWhite>}
         <FormEditMisDatos
