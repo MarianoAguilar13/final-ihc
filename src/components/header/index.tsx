@@ -86,6 +86,16 @@ function Header() {
             src="https://res.cloudinary.com/druokk1hc/image/upload/v1666023904/huella_iyr42s.png"
             alt="Icono mascotas"
           />
+          <a
+            //con esta funcion chequeo si existe un token en el localstorage
+            // si existe entonces puedo entrar a mis datos y sino voy a signin
+            onClick={() => {
+              push("/");
+            }}
+            className={Css.headerLinksLink}
+          >
+            Inicio
+          </a>
         </div>
         <div className={Css.headerLinks}>
           <a

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { coordenadasBusquedaCercanas } from "../../atoms/atoms";
 import { useRecoilState } from "recoil";
 import { petsConLocationCercana } from "../../api-hooks/api-hooks";
-import { SpinnerBlack } from "../../components/spinner-black";
+import { SpinnerWhite } from "../../components/spinner-white";
 import { Layout } from "@/components/layout";
 import Swal from "sweetalert2";
 
@@ -55,7 +55,7 @@ const PetsCercanas = () => {
     <Layout>
       <div className={Css.container}>
         <h1 className={Css.containerTitle}>Mascotas perdidas cerca tuyo</h1>
-        {isLoading && <SpinnerBlack></SpinnerBlack>}
+        {isLoading && <SpinnerWhite></SpinnerWhite>}
         <div className={Css.containerCard}>
           {lasPetsCercanas.map((r: any) => (
             <CardPetPerdida
@@ -72,7 +72,7 @@ const PetsCercanas = () => {
   ) : (
     <Layout>
       <div className={Css.container}>
-        {isLoading && <SpinnerBlack></SpinnerBlack>}
+        {isLoading && <SpinnerWhite></SpinnerWhite>}
         <h1 className={Css.containerTitle}>Mascotas perdidas cerca tuyo</h1>
       </div>
     </Layout>

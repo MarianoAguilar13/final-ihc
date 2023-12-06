@@ -6,8 +6,10 @@
 .container {
   display: flex;
   flex-direction: column;
-  margin-left: 20px;
-  margin-right: 20px;
+  min-height: 536px;
+  padding-left: 40px;
+  padding-right: 40px;
+  background-color: var(--verdeOcuro);
 }
 
 .containerCard {
@@ -29,6 +31,7 @@
 .containerTitle {
   font-size: 56px;
   font-weight: bold;
+  color: var(--grisLetra);
 }
 
 @media (min-width: 768px) {
