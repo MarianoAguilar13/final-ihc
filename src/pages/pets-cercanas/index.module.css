@@ -6,10 +6,16 @@
 .container {
   display: flex;
   flex-direction: column;
-  min-height: 536px;
+  min-height: calc(100vh - 150px);
   padding-left: 40px;
   padding-right: 40px;
   background-color: var(--verdeOcuro);
+}
+
+@media (max-width: 769px) {
+  .container {
+    min-height: calc(100vh - 150px);
+  }
 }
 
 .containerCard {

@@ -163,10 +163,10 @@ function Header() {
                 window.location.replace("/");
               }}
               className={Css.headerLinksLink}
+              style={{ color: "#800040", fontSize: "18px" }}
             >
-              {sesionActual.sesionOn
-                ? `Cerrar sesión ${sesionActual.name}`
-                : "Cerrar sesión"}
+              {sesionActual.sesionOn ? `Cerrar sesión` : "Cerrar sesión"}
+              <p className={Css.nameCuenta}>{sesionActual.name}</p>
             </a>
           ) : (
             <a
@@ -175,6 +175,7 @@ function Header() {
                 push("/sign-in");
               }}
               className={Css.headerLinksLink}
+              style={{ color: "#006380" }}
             >
               Iniciar sesión
             </a>
@@ -266,11 +267,11 @@ function Header() {
               //para reloguear la pag
               window.location.replace("/");
             }}
-            className={Css.headerLinksLink}
+            className={Css.ventanaLinksLink + " " + Css.linkCuatro}
+            style={{ color: "#800040" }}
           >
-            {sesionActual.sesionOn
-              ? `Cerrar sesión ${sesionActual.name}`
-              : "Cerrar sesión"}
+            {sesionActual.sesionOn ? `Cerrar sesión` : "Cerrar sesión"}
+            <p>{sesionActual.name}</p>
           </a>
         ) : (
           <a
@@ -278,7 +279,8 @@ function Header() {
               Swal.fire("OK", "Se lo redireccionará al login", "success");
               push("/sign-in");
             }}
-            className={Css.headerLinksLink}
+            className={Css.ventanaLinksLink + " " + Css.linkCuatro}
+            style={{ color: "#006380" }}
           >
             Iniciar sesión
           </a>

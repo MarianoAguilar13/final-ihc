@@ -12,8 +12,14 @@
   font-family: "Poppins", sans-serif;
   justify-content: center;
   align-items: center;
-  height: 600px;
+  min-height: calc(100vh - 150px);
   font-weight: 400;
+}
+
+@media (max-width: 769px) {
+  .container {
+    min-height: calc(100vh - 150px);
+  }
 }
 
 .containerTitulo {

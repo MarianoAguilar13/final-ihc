@@ -10,6 +10,8 @@
 .cardPet {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
   max-height: 500px;
   width: 300px;
   border: 5px solid black;
@@ -24,7 +26,6 @@
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   height: auto;
-  max-height: 400px;
   width: 100%;
   border-bottom: 5px solid black;
 }

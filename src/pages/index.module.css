@@ -6,14 +6,21 @@
 .container {
   display: flex;
   flex-direction: column;
-  height: 536px;
+  min-height: calc(100vh - 150px);
   background-color: var(--verdeOcuro);
+}
+
+@media (max-width: 769px) {
+  .container {
+    min-height: calc(100vh - 150px);
+  }
 }
 
 .containerTitle {
   font-size: 56px;
   font-weight: bold;
   color: var(--grisLetra);
+  text-align: center;
 }
 
 @media (min-width: 768px) {
