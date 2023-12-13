@@ -53,14 +53,14 @@ const ReportarPet = () => {
           idInputUno="name-input"
           nameInputUno="nombre"
           typeInputUno="text"
-          labelNameUno="TU NOMBRE"
+          labelNameUno="TU NOMBRE(*) (Al menos 3 letras):"
           idInputDos="telefono-input"
           nameInputDos="telefono"
           typeInputDos="text"
-          labelNameDos="TU TELÉFONO"
+          labelNameDos="TU TELÉFONO(*) (Al menos 9 números):"
           idTextArea="message-input"
           nameTextArea="msj"
-          labelNameTres="¿DONDE LO VISTE?"
+          labelNameTres="¿DONDE LO VISTE?(*)"
           buttonChildren="Enviar"
         ></FormReportPet>
       </div>

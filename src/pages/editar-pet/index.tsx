@@ -181,14 +181,14 @@ const EditarPet = () => {
             idInput="name-input"
             nameInput="name"
             typeInput="text"
-            labelName="NOMBRE(*)"
+            labelName="NOMBRE(*) (Al menos 3 letras):"
           ></FieldSetEditPet>
           <FieldSetEditPet
             typeValue={petData.type}
             idInput="tipo-pet-input"
             nameInput="tipoPet"
             typeInput="text"
-            labelName="TIPO DE MASCOTA(*)"
+            labelName="TIPO DE MASCOTA(*) (Al menos 4 letras):"
           ></FieldSetEditPet>
           <img
             className={Css.mostrarImagen}

@@ -12,13 +12,14 @@
   font-family: "Poppins", sans-serif;
   justify-content: center;
   align-items: center;
-  height: 700px;
+  height: 750px;
   font-weight: 400;
 }
 
 .containerTitulo {
   font-size: 32px;
   margin: 0;
+  margin-top: 20px;
   margin-bottom: 10px;
   font-weight: 400;
   font-family: "Montserrat", sans-serif;
@@ -30,5 +31,6 @@
   margin-bottom: 10px;
   font-weight: 400;
   font-family: "Montserrat", sans-serif;
-  width: 310px;
+  width: 340px;
+  line-height: 1.5;
 }

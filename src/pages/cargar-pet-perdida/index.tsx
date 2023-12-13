@@ -147,13 +147,13 @@ const CargarPet = () => {
             idInput="name-input"
             nameInput="name"
             typeInput="text"
-            labelName="NOMBRE(*)"
+            labelName="NOMBRE(*) (Al menos 3 letras):"
           ></MainFieldSet>
           <MainFieldSet
             idInput="tipo-pet-input"
             nameInput="tipoPet"
             typeInput="text"
-            labelName="TIPO DE MASCOTA(*)"
+            labelName="TIPO DE MASCOTA(*) (Al menos 4 letras):"
           ></MainFieldSet>
           <img
             className={Css.mostrarImagen}

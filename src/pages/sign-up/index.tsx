@@ -99,15 +99,15 @@ const SignUp = () => {
           idInputDos="name-input"
           nameInputDos="name"
           typeInputDos="text"
-          labelNameDos="NOMBRE(*)"
+          labelNameDos="NOMBRE(*) (Al menos 3 letras):"
           idInputTres="password-input"
           nameInputTres="password"
           typeInputTres="password"
-          labelNameTres="CONTRASEÑA(*)"
+          labelNameTres="CONTRASEÑA(*) (Al menos 8 caracteres):"
           idInputCuatro="password-repetida-input"
           nameInputCuatro="passwordRepetida"
           typeInputCuatro="password"
-          labelNameCuatro="REPETIR CONTRASEÑA(*)"
+          labelNameCuatro="REPETIR CONTRASEÑA(*) (Al menos 8 caracteres):"
           buttonChildren="Enviar"
         ></FormSignUp>
       </div>
